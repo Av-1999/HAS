@@ -11,13 +11,14 @@ import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { env } from '../../globalConfig'
 import { getItem, setItem } from '../helpers/storageHelper'
+import { Text } from 'react-native-web'
 
 const loginapi = env.api + 'login'
 
 export default function LoginScreen({ navigation }) {
+  const [credentials, setCredentials] = useState({ error: '' })
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
-  
 
   const onLoginPressed = () => {
     const emailError = emailValidator(email.value)
@@ -27,9 +28,6 @@ export default function LoginScreen({ navigation }) {
       setPassword({ ...password, error: passwordError })
       return
     }
-
-
-
     fetch(loginapi, {
       method: 'POST',
       headers: {
@@ -45,7 +43,6 @@ export default function LoginScreen({ navigation }) {
       })
       .then(async (data) => {
         setItem('user', data.user)
-        console.log('aaaaaas',)
 
         navigation.reset({
           index: 0,
@@ -53,6 +50,7 @@ export default function LoginScreen({ navigation }) {
         })
       })
       .catch(error => {
+        setCredentials({ error: 'Invalid Credentials' })
         console.error('Login error:', error);
       });
   }
@@ -62,6 +60,11 @@ export default function LoginScreen({ navigation }) {
       <BackButton goBack={navigation.goBack} />
       <Logo />
       <Header>Hello.</Header>
+      <View>
+        <Text style={styles.error}>
+          {credentials?.error}
+        </Text>
+      </View>
       <TextInput
         label="Email"
         returnKeyType="next"
@@ -123,4 +126,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: theme.colors.primary,
   },
+  error: {
+    color: theme.colors.error,
+  }
 })

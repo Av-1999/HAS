@@ -6,6 +6,11 @@ export const setItem = async (key, value) => {
     JSON.stringify(value),
   );
 };
+
 export const getItem = async (key) => {
  return await AsyncStorageStatic.getItem(key)
+};
+
+export const removeItem = async (key) => {
+  await AsyncStorageStatic.removeItem(key);
 };

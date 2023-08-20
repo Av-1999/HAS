@@ -2,23 +2,50 @@ import React, { useEffect } from 'react'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
-import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
-import { getItem } from '../helpers/storageHelper'
+import { getItem, removeItem } from '../helpers/storageHelper'
+import { env } from '../../globalConfig'
+
+const logoutapi = env.api + 'log-out'
 
 export default function Dashboard({ navigation }) {
-  const user = async () => await getItem('user');
 
-  console.log(user(), 'sssss')
+  const getUser = () => {
+    return getItem('user');
+  };
   useEffect(() => {
-    if (!user()) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'StartScreen' }],
+    getUser()
+      .then(user => {
+        if (!user) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'LoginScreen' }],
+          })
+        } else {
+          setTimeout(() => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Step1Screen' }],
+            })
+          }, 2000)
+        }
       })
-    }
+  }, [])
 
-  }, [user()])
+  const onSignOutPressed = () => {
+    fetch(logoutapi, {
+      method: 'POST'
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          await removeItem('user');
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'LoginScreen' }],
+          })
+        }
+      })
+  }
 
   return (
     <Background>
@@ -27,12 +54,7 @@ export default function Dashboard({ navigation }) {
 
       <Button
         mode="outlined"
-        onPress={() =>
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'StartScreen' }],
-          })
-        }
+        onPress={onSignOutPressed}
       >
         Sign out
       </Button>

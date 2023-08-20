@@ -3,26 +3,30 @@ import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
 import Button from '../components/Button'
-import Paragraph from '../components/Paragraph'
+import { getItem } from '../helpers/storageHelper'
 
 export default function StartScreen({ navigation }) {
-
-  const user = ''
-
+  const getUser = () => {
+    return getItem('user');
+  };
   useEffect(() => {
-    if (user) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Dashboard' }],
-      })
-    }
+    getUser()
+      .then(user => {
+        if (user) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Dashboard' }],
+          })
+        }
+      }
+    )
   }, [])
 
   return (
     <Background>
       <Logo />
       <Header>Engine</Header>
-        {/* <Paragraph>
+      {/* <Paragraph>
           A simple React Native Expo Login template app.
         </Paragraph> */}
       <Button
