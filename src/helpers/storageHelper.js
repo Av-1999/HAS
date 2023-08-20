@@ -1,4 +1,4 @@
-import AsyncStorageStatic from "@react-native-community/async-storage";
+import AsyncStorageStatic from "@react-native-async-storage/async-storage";
 
 export const setItem = async (key, value) => {
   await AsyncStorageStatic.setItem(

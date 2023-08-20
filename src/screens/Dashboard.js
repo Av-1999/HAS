@@ -2,11 +2,7 @@ import React, { useEffect } from 'react'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
-import Button from '../components/Button'
-import { getItem, removeItem } from '../helpers/storageHelper'
-import { env } from '../../globalConfig'
-
-const logoutapi = env.api + 'log-out'
+import { getItem } from '../helpers/storageHelper'
 
 export default function Dashboard({ navigation }) {
 
@@ -32,32 +28,10 @@ export default function Dashboard({ navigation }) {
       })
   }, [])
 
-  const onSignOutPressed = () => {
-    fetch(logoutapi, {
-      method: 'POST'
-    })
-      .then(async (response) => {
-        if (response.ok) {
-          await removeItem('user');
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'LoginScreen' }],
-          })
-        }
-      })
-  }
-
   return (
     <Background>
       <Logo />
       <Header>Welcome 💫</Header>
-
-      <Button
-        mode="outlined"
-        onPress={onSignOutPressed}
-      >
-        Sign out
-      </Button>
     </Background>
   )
 }
