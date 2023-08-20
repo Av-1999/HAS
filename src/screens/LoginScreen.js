@@ -56,7 +56,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <Background>
-      <Logo />
+      <Logo />  
       <Header>Hello.</Header>
       <View>
         <Text style={styles.error}>

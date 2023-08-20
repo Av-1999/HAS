@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import Background from '../components/Background'
 import Button from '../components/Button';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { removeItem } from '../helpers/storageHelper';
 import { env } from '../../globalConfig';
+import Logo from '../components/Logo';
 
 const logoutapi = env.api + 'log-out'
 
@@ -24,34 +25,51 @@ export default function Dashboard({ navigation }) {
       })
   }
 
-  const onClickItem = () => {
+  const onClickItem = (item) => {
+
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Step2Screen' }],
+      routes: [{
+        name: 'Step2Screen',
+        params: {
+          selectedItem: item
+        }
+      }],
     })
   }
 
   return (
     <Background>
+      <View style={{ position: 'absolute', top: 100 }}>
+        <Logo />
+      </View>
       <Text style={styles.header}>Ընտրեք ծառայությունը</Text>
-      <TouchableOpacity style={styles.answer} onPress={onClickItem}>
+      <TouchableOpacity style={styles.answer} onPress={() => onClickItem(1)}>
         <Text style={styles.answerText}>Գրանցում</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.answer} onPress={onClickItem}>
+      <TouchableOpacity style={styles.answer} onPress={() => onClickItem(2)}>
         <Text style={styles.answerText}>Պայմանագրի կնքում</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.answer} onPress={onClickItem}>
+      <TouchableOpacity style={styles.answer} onPress={() => onClickItem(3)}>
         <Text style={styles.answerText}>Տեխնիկական խնդիր</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.answer} onPress={onClickItem}>
+      <TouchableOpacity style={styles.answer} onPress={() => onClickItem(4)}>
         <Text style={styles.answerText}>Այլ</Text>
       </TouchableOpacity>
-      <Button
+      {/* <Button
         mode="outlined"
         onPress={onSignOutPressed}
       >
         Sign out
-      </Button>
+      </Button> */}
+      <View style={{ position: 'absolute', bottom: 20, width: '100%' }}>
+        <Button
+          mode="outlined"
+          onPress={onSignOutPressed}
+        >
+          Sign out
+        </Button>
+      </View>
     </Background>
   )
 }
