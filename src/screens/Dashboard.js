@@ -1,39 +1,84 @@
 import React, { useEffect } from 'react'
 import Background from '../components/Background'
-import Logo from '../components/Logo'
-import Header from '../components/Header'
-import { getItem } from '../helpers/storageHelper'
+import Button from '../components/Button';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { removeItem } from '../helpers/storageHelper';
+import { env } from '../../globalConfig';
+
+const logoutapi = env.api + 'log-out'
 
 export default function Dashboard({ navigation }) {
 
-  const getUser = () => {
-    return getItem('user');
-  };
-  useEffect(() => {
-    getUser()
-      .then(user => {
-        if (!user) {
+  const onSignOutPressed = () => {
+    fetch(logoutapi, {
+      method: 'POST'
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          await removeItem('user');
           navigation.reset({
             index: 0,
             routes: [{ name: 'LoginScreen' }],
           })
-        } else {
-          setTimeout(() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'Step1Screen' }],
-            })
-          }, 2000)
         }
       })
-  }, [])
+  }
+
+  const onClickItem = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Step2Screen' }],
+    })
+  }
 
   return (
     <Background>
-      <Logo />
-      <Header>Welcome 💫</Header>
+      <Text style={styles.header}>Ընտրեք ծառայությունը</Text>
+      <TouchableOpacity style={styles.answer} onPress={onClickItem}>
+        <Text style={styles.answerText}>Գրանցում</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.answer} onPress={onClickItem}>
+        <Text style={styles.answerText}>Պայմանագրի կնքում</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.answer} onPress={onClickItem}>
+        <Text style={styles.answerText}>Տեխնիկական խնդիր</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.answer} onPress={onClickItem}>
+        <Text style={styles.answerText}>Այլ</Text>
+      </TouchableOpacity>
+      <Button
+        mode="outlined"
+        onPress={onSignOutPressed}
+      >
+        Sign out
+      </Button>
     </Background>
   )
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  answer: {
+    width: 200,
+    height: 40,
+    backgroundColor: '#FFC800',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  answerText: {
+    color: 'white',
+    fontSize: 16,
+  },
+});
 // eas build -p android --profile preview

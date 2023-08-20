@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Button from '../components/Button';
 import Background from '../components/Background'
+import BackButton from '../components/BackButton'
 import { removeItem } from '../helpers/storageHelper';
 import { env } from '../../globalConfig';
 
 const logoutapi = env.api + 'log-out'
 
-const Step1Screen = ({navigation}) => {
+const Step2Screen = ({ navigation }) => {
   const onSignOutPressed = () => {
     fetch(logoutapi, {
       method: 'POST'
@@ -22,21 +23,18 @@ const Step1Screen = ({navigation}) => {
         }
       })
   }
+
   return (
     <Background>
-      <Text style={styles.header}>Ընտրեք ծառայությունը</Text>
+      {/* <BackButton goBack={navigation.goBack} /> */}
+      <Text style={styles.typography}>Արդյո՞ք լուծվեց խնդիրը</Text>
       <TouchableOpacity style={styles.answer}>
-        <Text style={styles.answerText}>Գրանցում</Text>
+        <Text style={styles.answerText}>Այո</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.answer}>
-        <Text style={styles.answerText}>Պայմանագրի կնքում</Text>
+        <Text style={styles.answerText}>Ոչ</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.answer}>
-        <Text style={styles.answerText}>Տեխնիկական խնդիր</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.answer}>
-        <Text style={styles.answerText}>Այլ</Text>
-      </TouchableOpacity>
+      <Text style={styles.typography}>Գնահատեք օպերատորի աշխատանքը</Text>
       <Button
         mode="outlined"
         onPress={onSignOutPressed}
@@ -58,6 +56,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
+  typography: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center'
+  },
   answer: {
     width: 200,
     height: 40,
@@ -73,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Step1Screen;
+export default Step2Screen;

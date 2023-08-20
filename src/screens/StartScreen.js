@@ -5,6 +5,7 @@ import Header from '../components/Header'
 import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 import { getItem } from '../helpers/storageHelper'
+import { Text } from 'react-native'
 
 export default function StartScreen({ navigation }) {
   const getUser = () => {
@@ -18,30 +19,19 @@ export default function StartScreen({ navigation }) {
             index: 0,
             routes: [{ name: 'Dashboard' }],
           })
+        } else {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'LoginScreen' }],
+          })
         }
       }
-    )
+      )
   }, [])
 
   return (
     <Background>
-      <Logo />
-      <Header>Engine</Header>
-      {/* <Paragraph>
-          A simple React Native Expo Login template app.
-        </Paragraph> */}
-      <Button
-        mode="contained"
-        onPress={() => navigation.navigate('LoginScreen')}
-      >
-        Log in
-      </Button>
-      {/* <Button
-        mode="outlined"
-        onPress={() => navigation.navigate('RegisterScreen')}
-      >
-        Create an account
-      </Button> */}
+      <Text>Loading...</Text>
     </Background>
   )
 }
