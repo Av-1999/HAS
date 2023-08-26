@@ -11,6 +11,8 @@ import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { env } from '../../globalConfig'
 import { getItem, setItem } from '../helpers/storageHelper'
+import { Loading } from '../components/Loading'
+import { ActivityIndicator } from 'react-native-paper'
 
 const loginapi = env.api + 'login'
 
@@ -18,11 +20,14 @@ export default function LoginScreen({ navigation }) {
   const [credentials, setCredentials] = useState({ error: '' })
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
+  const [loading, setLoading] = useState(false);
 
   const onLoginPressed = () => {
+    setLoading(true);
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
     if (emailError || passwordError) {
+      setLoading(false);
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
       return
@@ -41,14 +46,22 @@ export default function LoginScreen({ navigation }) {
         return response.json();
       })
       .then(async (data) => {
+        setLoading(false);
         setItem('user', data.user)
-
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Dashboard' }],
-        })
+        if (data.user.role === 'admin') {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'AdminPanel' }],
+          })
+        } else {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Dashboard' }],
+          })
+        }
       })
       .catch(error => {
+        setLoading(false);
         setCredentials({ error: 'Invalid Credentials' })
         console.error('Login error:', error);
       });
@@ -56,7 +69,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <Background>
-      <Logo />  
+      <Logo />
       <Header>Hello.</Header>
       <View>
         <Text style={styles.error}>
@@ -91,17 +104,9 @@ export default function LoginScreen({ navigation }) {
           {/* <Text style={styles.forgot}>Forgot your password ?</Text> */}
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
-        Log in
+      <Button mode="contained" onPress={onLoginPressed} disabled={loading} loading={loading}>
+          Log in
       </Button>
-      {/* <View style={styles.row}>
-        <Text>You do not have an account yet ?</Text> 
-      </View> */}
-      {/* <View style={styles.row}>
-        <TouchableOpacity onPress={() => navigation.replace('RegisterScreen')}>
-          <Text style={styles.link}>Create !</Text>
-        </TouchableOpacity>
-      </View> */}
     </Background>
   )
 }

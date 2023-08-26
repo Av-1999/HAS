@@ -6,6 +6,7 @@ import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 import { getItem } from '../helpers/storageHelper'
 import { Text } from 'react-native'
+import { Loading } from '../components/Loading'
 
 export default function StartScreen({ navigation }) {
   const getUser = () => {
@@ -13,12 +14,20 @@ export default function StartScreen({ navigation }) {
   };
   useEffect(() => {
     getUser()
+      .then(e=> JSON.parse(e))
       .then(user => {
         if (user) {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'Dashboard' }],
-          })
+          if (user.role === 'admin') {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'AdminPanel' }],
+            })
+          } else {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Dashboard' }],
+            })
+          }
         } else {
           navigation.reset({
             index: 0,
@@ -31,7 +40,7 @@ export default function StartScreen({ navigation }) {
 
   return (
     <Background>
-      <Text>Loading...</Text>
+      {/* <Loading /> */}
     </Background>
   )
 }

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import Button from '../components/Button';
 import Background from '../components/Background'
 import BackButton from '../components/BackButton'
-import { removeItem } from '../helpers/storageHelper';
+import { getItem, removeItem } from '../helpers/storageHelper';
 import { env } from '../../globalConfig';
 import { Rating } from 'react-native-ratings';
 import { theme } from '../core/theme';
@@ -12,29 +12,43 @@ import Logo from '../components/Logo';
 const storesurveyapi = env.api + 'store-survey'
 
 const Step2Screen = ({ navigation, route }) => {
-  const [resolved, setResolved] = useState(0)
-  const [rate, setRate] = useState(0)
+  const [resolved, setResolved] = useState(0);
+  const [rate, setRate] = useState(0);
+  const [user, setUser] = useState(null);
+
+  useLayoutEffect(() => {
+    getItem('user').then(user => setUser(JSON.parse(user)));
+  }, [])
+
   const selectedItem = route.params.selectedItem;
-  console.log(selectedItem)
+
+  const requestBody = {
+    user_id: user?.id,
+    answers_ids: `${selectedItem},${rate},${resolved}`
+  };
+
   const onSubmitPressed = () => {
-    // fetch(storesurveyapi, {
-    //   method: 'POST',
-    // })
-    //   .then(async (response) => {
-    //     if (response.ok) {
-    //       await removeItem('user');
-    //       navigation.reset({
-    //         index: 0,
-    //         routes: [{ name: 'LoginScreen' }],
-    //       })
-    //     }
-    //   })
-    console.log(selectedItem, rate, resolved)
+    fetch(storesurveyapi, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+      body: JSON.stringify(requestBody), // Stringify the body
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Dashboard' }],
+          })
+        }
+      })
+    // console.log(selectedItem, rate, resolved)
   }
 
   const ratingCompleted = (e) => {
-    console.log(e+5)
-    setRate(e+5)
+    console.log(e + 5)
+    setRate(e + 5)
   }
 
   const onResolved = (e) => {
@@ -51,13 +65,13 @@ const Step2Screen = ({ navigation, route }) => {
       </View>
       {/* <BackButton goBack={navigation.goBack} /> */}
       <Text style={styles.typography}>Արդյո՞ք լուծվեց խնդիրը</Text>
-      <TouchableOpacity style={[styles.answer, button1Style]} onPress={()=>onResolved(10)}>
+      <TouchableOpacity style={[styles.answer, button1Style]} onPress={() => onResolved(10)}>
         <Text style={[styles.answerText, button1Style]}>Այո</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.answer, button2Style]} onPress={()=>onResolved(11)}>
+      <TouchableOpacity style={[styles.answer, button2Style]} onPress={() => onResolved(11)}>
         <Text style={[styles.answerText, button2Style]}>Ոչ</Text>
       </TouchableOpacity>
-      <View style={{height: 50}}></View>
+      <View style={{ height: 50 }}></View>
       <Text style={styles.typography}>Գնահատեք օպերատորի աշխատանքը</Text>
       <Rating
         type='custom'
@@ -71,7 +85,7 @@ const Step2Screen = ({ navigation, route }) => {
         <Button
           mode="outlined"
           onPress={onSubmitPressed}
-          style={{borderColor: '#ffc800'}}
+          style={{ borderColor: '#ffc800' }}
           disabled={disabled2}
         >
           Ուղարկել

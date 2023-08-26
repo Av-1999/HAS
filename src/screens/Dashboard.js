@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import Background from '../components/Background'
-import Button from '../components/Button';
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { removeItem } from '../helpers/storageHelper';
 import { env } from '../../globalConfig';
 import Logo from '../components/Logo';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const logoutapi = env.api + 'log-out'
 
@@ -56,23 +56,18 @@ export default function Dashboard({ navigation }) {
       <TouchableOpacity style={styles.answer} onPress={() => onClickItem(4)}>
         <Text style={styles.answerText}>Այլ</Text>
       </TouchableOpacity>
-      {/* <Button
-        mode="outlined"
-        onPress={onSignOutPressed}
-      >
-        Sign out
-      </Button> */}
     </Background>
-      <View style={{ position: 'absolute', top: 30, right: 30 }}>
+    <View style={{ position: 'absolute', top: 40, right: 30 }}>
+      <Pressable onPress={onSignOutPressed}>
         <Text
           mode="outlined"
-          onPress={onSignOutPressed}
-          style={{fontWeight: 'bold'}}
+          style={{ fontWeight: 'bold' }}
         >
           Sign out
         </Text>
-      </View>
-      </>
+      </Pressable>
+    </View>
+  </>
   )
 }
 
