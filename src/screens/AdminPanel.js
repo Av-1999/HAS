@@ -5,6 +5,8 @@ import { env } from '../../globalConfig';
 import { Loading } from '../components/Loading';
 import { Card, Avatar } from 'react-native-paper';
 import { ProgressBar } from '../components/ProgressBar';
+import { getStatusBarHeight } from 'react-native-status-bar-height'
+import BackButton from '../components/BackButton';
 
 const adminPanelApi = env.api + 'get-users';
 const logoutapi = env.api + 'log-out';
@@ -99,6 +101,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    // paddingTop: getStatusBarHeight()
   },
   header: {
     fontSize: 24,
@@ -122,7 +125,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     marginTop: 90,
-    marginBottom: 30,
   }
 });
 // eas build -p android --profile preview

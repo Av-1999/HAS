@@ -13,10 +13,14 @@ import {
   AdminPanel,
   UserDetails
 } from './src/screens'
+import { StatusBar } from 'react-native'
 
 const Stack = createStackNavigator()
 
 export default function App() {
+
+  StatusBar.setBackgroundColor('#000000');
+  
   return (
     <Provider theme={theme}>
       <NavigationContainer>

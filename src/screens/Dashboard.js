@@ -5,6 +5,7 @@ import { removeItem } from '../helpers/storageHelper';
 import { env } from '../../globalConfig';
 import Logo from '../components/Logo';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import { Avatar } from 'react-native-paper';
 
 const logoutapi = env.api + 'log-out'
 
@@ -63,7 +64,7 @@ export default function Dashboard({ navigation }) {
           mode="outlined"
           style={{ fontWeight: 'bold' }}
         >
-          Sign out
+          <Avatar.Icon size={40} icon="door-open" />
         </Text>
       </Pressable>
     </View>

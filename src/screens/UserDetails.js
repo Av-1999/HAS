@@ -5,16 +5,16 @@ import { removeItem } from '../helpers/storageHelper';
 import { env } from '../../globalConfig';
 import { Avatar } from 'react-native-paper';
 import BackButton from '../components/BackButton';
+import { Loading } from '../components/Loading';
+import { Table } from '../components/Table';
 
 const adminPanelApi = env.api + 'get-surveys/';
 const logoutapi = env.api + 'log-out';
 
 export default function UserDetails({ navigation, route }) {
-  const [userDetails, setUserDetails] = useState(null);
+  const [userDetails, setUserDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const userId = route.params.userId;
-
-
 
   useEffect(() => {
     setLoading(true)
@@ -31,7 +31,7 @@ export default function UserDetails({ navigation, route }) {
         return response.json();
       })
       .then(async (data) => {
-        console.log('lllll', data)
+        setUserDetails(data)
         setLoading(false)
       })
       .catch(e => {
@@ -56,17 +56,15 @@ export default function UserDetails({ navigation, route }) {
 
   const goTo = () => {
     navigation.reset({
-      index: 0,
       routes: [{ name: 'AdminPanel' }],
     })
   }
-  // console.log('aaa', users)
-  // if (loading) return <Loading />
+  if (loading) return <Loading />
   return (
     <View style={styles.container}>
-      <Background>
-        <BackButton goBack={goTo} />
-      </Background>
+      <BackButton goBack={goTo} />
+
+      <Table customersData={userDetails}/>
 
       <View style={{ position: 'absolute', top: 50, right: 20 }}>
         <Text
