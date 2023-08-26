@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import Button from '../components/Button';
 import Background from '../components/Background'
@@ -9,42 +9,53 @@ import { Rating } from 'react-native-ratings';
 import { theme } from '../core/theme';
 import Logo from '../components/Logo';
 
-const logoutapi = env.api + 'log-out'
+const storesurveyapi = env.api + 'store-survey'
 
 const Step2Screen = ({ navigation, route }) => {
+  const [resolved, setResolved] = useState(0)
+  const [rate, setRate] = useState(0)
   const selectedItem = route.params.selectedItem;
-
-  const onSignOutPressed = () => {
-    fetch(logoutapi, {
-      method: 'POST'
-    })
-      .then(async (response) => {
-        if (response.ok) {
-          await removeItem('user');
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'LoginScreen' }],
-          })
-        }
-      })
+  console.log(selectedItem)
+  const onSubmitPressed = () => {
+    // fetch(storesurveyapi, {
+    //   method: 'POST',
+    // })
+    //   .then(async (response) => {
+    //     if (response.ok) {
+    //       await removeItem('user');
+    //       navigation.reset({
+    //         index: 0,
+    //         routes: [{ name: 'LoginScreen' }],
+    //       })
+    //     }
+    //   })
+    console.log(selectedItem, rate, resolved)
   }
 
   const ratingCompleted = (e) => {
-    console.log(e, 'eleleme')
+    console.log(e+5)
+    setRate(e+5)
   }
 
+  const onResolved = (e) => {
+    console.log(e)
+    setResolved(e)
+  }
+  const button1Style = resolved == 10 ? styles.clicked : {}
+  const button2Style = resolved == 11 ? styles.clicked : {}
+  const disabled2 = resolved !== 0 && rate !== 0 ? false : true
   return (
     <Background>
-      <View style={{ position: 'absolute', top: 100 }}>
+      <View style={{ marginBottom: 30 }}>
         <Logo />
       </View>
       {/* <BackButton goBack={navigation.goBack} /> */}
       <Text style={styles.typography}>Արդյո՞ք լուծվեց խնդիրը</Text>
-      <TouchableOpacity style={styles.answer}>
-        <Text style={styles.answerText}>Այո</Text>
+      <TouchableOpacity style={[styles.answer, button1Style]} onPress={()=>onResolved(10)}>
+        <Text style={[styles.answerText, button1Style]}>Այո</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.answer}>
-        <Text style={styles.answerText}>Ոչ</Text>
+      <TouchableOpacity style={[styles.answer, button2Style]} onPress={()=>onResolved(11)}>
+        <Text style={[styles.answerText, button2Style]}>Ոչ</Text>
       </TouchableOpacity>
       <View style={{height: 50}}></View>
       <Text style={styles.typography}>Գնահատեք օպերատորի աշխատանքը</Text>
@@ -56,6 +67,16 @@ const Step2Screen = ({ navigation, route }) => {
         ratingColor='#ffc800'
         onFinishRating={ratingCompleted}
       />
+      <View style={{ position: 'absolute', bottom: 20, width: '100%' }}>
+        <Button
+          mode="outlined"
+          onPress={onSubmitPressed}
+          style={{borderColor: '#ffc800'}}
+          disabled={disabled2}
+        >
+          Ուղարկել
+        </Button>
+      </View>
     </Background>
   );
 };
@@ -90,6 +111,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  clicked: {
+    backgroundColor: '#fff',
+    color: "#FFC800",
+  }
 });
 
 export default Step2Screen;

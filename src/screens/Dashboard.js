@@ -38,9 +38,9 @@ export default function Dashboard({ navigation }) {
     })
   }
 
-  return (
+  return (<>
     <Background>
-      <View style={{ position: 'absolute', top: 100 }}>
+      <View style={{ marginBottom: 30 }}>
         <Logo />
       </View>
       <Text style={styles.header}>Ընտրեք ծառայությունը</Text>
@@ -62,15 +62,17 @@ export default function Dashboard({ navigation }) {
       >
         Sign out
       </Button> */}
-      <View style={{ position: 'absolute', bottom: 20, width: '100%' }}>
-        <Button
+    </Background>
+      <View style={{ position: 'absolute', top: 30, right: 30 }}>
+        <Text
           mode="outlined"
           onPress={onSignOutPressed}
+          style={{fontWeight: 'bold'}}
         >
           Sign out
-        </Button>
+        </Text>
       </View>
-    </Background>
+      </>
   )
 }
 
