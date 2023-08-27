@@ -4,7 +4,7 @@ import { DataTable } from 'react-native-paper';
 import { Rating } from 'react-native-ratings';
 import { theme } from '../core/theme';
 
-const itemsPerPage = 10;
+const itemsPerPage = 20;
 
 export const Table = ({ customersData }) => {
   const [page, setPage] = React.useState(0);
@@ -24,7 +24,7 @@ export const Table = ({ customersData }) => {
 
         {customersData.slice(page * itemsPerPage, page * itemsPerPage + itemsPerPage).map((item, index) => (
           <DataTable.Row key={index}>
-            <DataTable.Cell>{item.number || '000-00-00-00'}</DataTable.Cell>
+            <DataTable.Cell>{item.phone || '000-00-00-00'}</DataTable.Cell>
             <DataTable.Cell>{item.answers[0].question}</DataTable.Cell>
             <DataTable.Cell>{item.answers[2].answer}</DataTable.Cell>
             <DataTable.Cell>

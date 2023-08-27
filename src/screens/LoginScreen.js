@@ -56,7 +56,7 @@ export default function LoginScreen({ navigation }) {
         } else {
           navigation.reset({
             index: 0,
-            routes: [{ name: 'Dashboard' }],
+            routes: [{ name: 'SetPhoneNumber' }],
           })
         }
       })

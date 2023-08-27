@@ -17,8 +17,10 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
+    "react-native-daterange-picker": "^1.5.1",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-paper": "^4.4.1",
+    "react-native-phone-number-input": "^2.1.0",
     "react-native-progress-circle": "^2.1.0",
     "react-native-ratings": "^8.1.0",
     "react-native-reanimated": "^2.2.4",
@@ -27,7 +29,8 @@
     "react-native-status-bar-height": "^2.6.0",
     "react-native-table-component": "^1.2.2",
     "react-native-ui-lib": "^7.7.1",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "rn-select-date-range": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

@@ -1,30 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Background from '../components/Background'
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
-import { removeItem } from '../helpers/storageHelper';
-import { env } from '../../globalConfig';
 import Logo from '../components/Logo';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
-import { Avatar } from 'react-native-paper';
 
-const logoutapi = env.api + 'log-out'
+export default function Dashboard({ navigation, route }) {
 
-export default function Dashboard({ navigation }) {
-
-  const onSignOutPressed = () => {
-    fetch(logoutapi, {
-      method: 'POST'
-    })
-      .then(async (response) => {
-        if (response.ok) {
-          await removeItem('user');
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'LoginScreen' }],
-          })
-        }
-      })
-  }
+  const phone = route.params.phone;
 
   const onClickItem = (item) => {
 
@@ -33,13 +14,14 @@ export default function Dashboard({ navigation }) {
       routes: [{
         name: 'Step2Screen',
         params: {
-          selectedItem: item
+          selectedItem: item,
+          phone
         }
       }],
     })
   }
 
-  return (<>
+  return (
     <Background>
       <View style={{ marginBottom: 30 }}>
         <Logo />
@@ -58,17 +40,6 @@ export default function Dashboard({ navigation }) {
         <Text style={styles.answerText}>Այլ</Text>
       </TouchableOpacity>
     </Background>
-    <View style={{ position: 'absolute', top: 40, right: 30 }}>
-      <Pressable onPress={onSignOutPressed}>
-        <Text
-          mode="outlined"
-          style={{ fontWeight: 'bold' }}
-        >
-          <Avatar.Icon size={40} icon="door-open" />
-        </Text>
-      </Pressable>
-    </View>
-  </>
   )
 }
 

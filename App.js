@@ -11,7 +11,8 @@ import {
   Dashboard,
   Step2Screen,
   AdminPanel,
-  UserDetails
+  UserDetails,
+  SetPhoneNumber
 } from './src/screens'
 import { StatusBar } from 'react-native'
 
@@ -30,6 +31,7 @@ export default function App() {
             headerShown: false,
           }}
         >
+          <Stack.Screen name="SetPhoneNumber" component={SetPhoneNumber} />
           <Stack.Screen name="Step2Screen" component={Step2Screen} />
           <Stack.Screen name="StartScreen" component={StartScreen} />
           <Stack.Screen name="AdminPanel" component={AdminPanel} />

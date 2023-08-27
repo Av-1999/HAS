@@ -15,19 +15,24 @@ const Step2Screen = ({ navigation, route }) => {
   const [resolved, setResolved] = useState(0);
   const [rate, setRate] = useState(0);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
     getItem('user').then(user => setUser(JSON.parse(user)));
   }, [])
 
   const selectedItem = route.params.selectedItem;
+  const phone = route.params.phone;
 
   const requestBody = {
     user_id: user?.id,
-    answers_ids: `${selectedItem},${rate},${resolved}`
+    answers_ids: `${selectedItem},${rate},${resolved}`,
+    phone
   };
 
   const onSubmitPressed = () => {
+    console.log('aaaaa  ', requestBody)
+    setLoading(true);
     fetch(storesurveyapi, {
       method: 'POST',
       headers: {
@@ -37,27 +42,29 @@ const Step2Screen = ({ navigation, route }) => {
     })
       .then(async (response) => {
         if (response.ok) {
+          setLoading(false)
           navigation.reset({
             index: 0,
-            routes: [{ name: 'Dashboard' }],
+            routes: [{ name: 'SetPhoneNumber' }],
           })
         }
       })
-    // console.log(selectedItem, rate, resolved)
+      .catch(async () => {
+        setLoading(false)
+      })
   }
 
   const ratingCompleted = (e) => {
-    console.log(e + 5)
-    setRate(e + 5)
+    setRate(e + 4)
   }
 
   const onResolved = (e) => {
-    console.log(e)
     setResolved(e)
   }
   const button1Style = resolved == 10 ? styles.clicked : {}
   const button2Style = resolved == 11 ? styles.clicked : {}
-  const disabled2 = resolved !== 0 && rate !== 0 ? false : true
+  const disabled = resolved !== 0 && rate !== 0 ? false : true
+
   return (
     <Background>
       <View style={{ marginBottom: 30 }}>
@@ -86,7 +93,8 @@ const Step2Screen = ({ navigation, route }) => {
           mode="outlined"
           onPress={onSubmitPressed}
           style={{ borderColor: '#ffc800' }}
-          disabled={disabled2}
+          loading={loading}
+          disabled={disabled}
         >
           Ուղարկել
         </Button>
