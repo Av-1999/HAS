@@ -1,3 +1,3 @@
 export const env = {
-  api: "https://yandexengine-f9c42b938018.herokuapp.com/api/"
+  api: "https://yandex-engine-12c96e024d75.herokuapp.com/api/"
 }
