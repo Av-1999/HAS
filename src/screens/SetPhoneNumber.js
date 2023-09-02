@@ -61,9 +61,10 @@ export default function SetPhoneNumber({ navigation }) {
   return (
     <>
       <Background>
-        <Logo />
-
-        <Header>Phone number.</Header>
+        <View style={{ marginBottom: 30 }}>
+          <Logo />
+        </View>
+        <Text style={styles.header}>Հեռախոսահամար</Text>
 
         <View style={styles.phoneInput}>
 
@@ -80,7 +81,7 @@ export default function SetPhoneNumber({ navigation }) {
         </View>
 
         <Button mode="contained" onPress={onPhoneNumberSubmit} disabled={!isValid}>
-          Continue
+          Առաջ
         </Button>
 
       </Background>
@@ -111,6 +112,11 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-end',
     marginBottom: 10,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   row: {
     flexDirection: 'row',

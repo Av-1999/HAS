@@ -69,8 +69,10 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <Background>
-      <Logo />
-      <Header>Hello.</Header>
+      <View style={{ marginBottom: 30 }}>
+        <Logo />
+      </View>
+      <Text style={styles.header}>Բարի գալուստ</Text>
       <View>
         <Text style={styles.error}>
           {credentials?.error}
@@ -128,6 +130,11 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: 'bold',
     color: theme.colors.primary,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   error: {
     color: theme.colors.error,
