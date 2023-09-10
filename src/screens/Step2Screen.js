@@ -1,12 +1,10 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import Button from '../components/Button';
 import Background from '../components/Background'
-import BackButton from '../components/BackButton'
-import { getItem, removeItem } from '../helpers/storageHelper';
+import { getItem } from '../helpers/storageHelper';
 import { env } from '../../globalConfig';
 import { Rating } from 'react-native-ratings';
-import { theme } from '../core/theme';
 import Logo from '../components/Logo';
 
 const storesurveyapi = env.api + 'store-survey'
@@ -31,7 +29,6 @@ const Step2Screen = ({ navigation, route }) => {
   };
 
   const onSubmitPressed = () => {
-    console.log('aaaaa  ', requestBody)
     setLoading(true);
     fetch(storesurveyapi, {
       method: 'POST',

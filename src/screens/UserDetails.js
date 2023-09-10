@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Background from '../components/Background'
 import { Text, StyleSheet, View, Pressable } from 'react-native';
-import { removeItem } from '../helpers/storageHelper';
 import { env } from '../../globalConfig';
 import { ActivityIndicator, Avatar } from 'react-native-paper';
 import BackButton from '../components/BackButton';

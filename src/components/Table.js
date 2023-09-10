@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { Rating } from 'react-native-ratings';
-import { theme } from '../core/theme';
 
 const itemsPerPage = 20;
 
