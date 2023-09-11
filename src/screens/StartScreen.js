@@ -16,10 +16,15 @@ export default function StartScreen({ navigation }) {
               index: 0,
               routes: [{ name: 'AdminPanel' }],
             })
-          } else {
+          } else if (user.role === 'terminal') {
             navigation.reset({
               index: 0,
               routes: [{ name: 'SetPhoneNumber' }],
+            })
+          }else if (user.role === 'user') {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Step2Screen' }],
             })
           }
         } else {

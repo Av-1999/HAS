@@ -12,7 +12,7 @@ export default function Dashboard({ navigation, route }) {
     navigation.reset({
       index: 0,
       routes: [{
-        name: 'Step2Screen',
+        name: 'TicketScreen',
         params: {
           selectedItem: item,
           phone

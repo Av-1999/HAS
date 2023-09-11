@@ -49,10 +49,15 @@ export default function LoginScreen({ navigation }) {
             index: 0,
             routes: [{ name: 'AdminPanel' }],
           })
-        } else {
+        } else if (data.user.role === 'terminal') {
           navigation.reset({
             index: 0,
             routes: [{ name: 'SetPhoneNumber' }],
+          })
+        }else if (data.user.role === 'user') {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Step2Screen' }],
           })
         }
       })
